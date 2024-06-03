@@ -12,3 +12,8 @@ After that, clone this repo into the place where the hardware-configuration.nix 
 
 Finally, install nixos with nixos-install!
 
+## How does it look?
+Glad you asked!
+
+![Screenshot](./res/screenshot.png)
+
