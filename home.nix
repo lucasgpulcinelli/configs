@@ -104,14 +104,19 @@
       python-pkgs.matplotlib
     ]))
 
+    # Programming - rust
+    rustc
+    cargo
+    cargo-watch
+    rustfmt
+
     # Programming - other languages
     go
     ghc
     ghcid
     jdk17
     bun
-    rustc
-    cargo
+    nodejs_22
   ];
 
   # System diagostics
@@ -515,6 +520,8 @@
       smartcase = true;
       ignorecase = true;
       colorcolumn = "80";
+      foldmethod = "indent";
+      foldlevelstart = 10;
     };
 
     globals = {mapleader = " ";};
@@ -770,6 +777,7 @@
           gopls.enable = true;
           clangd.enable = true;
           ruff-lsp.enable = true;
+          tsserver.enable = true;
         };
 
         onAttach = ''
