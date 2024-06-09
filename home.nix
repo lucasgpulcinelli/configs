@@ -480,17 +480,18 @@
     ];
 
     extraConfig = ''
-      bind -n C-h select-pane -L
-      bind -n C-j select-pane -D
-      bind -n C-k select-pane -U
-      bind -n C-l select-pane -R
-      bind u send-keys "\003\012fzcd ~\012"
+      bind h select-pane -L
+      bind j select-pane -D
+      bind k select-pane -U
+      bind l select-pane -R
+      bind o send-keys "\003\012fzcd ~\012"
       bind i send-keys "\003\012clear\012"
-      bind o send-keys "\003\012clip\012"
+      bind u send-keys "\003\012clip\012"
 
       set -g status-bg 'default'
       set-option -g status-style bg=default
       set-option -sa terminal-overrides ",xterm*:Tc"
+      set-option -g renumber-windows on
 
       bind-key -T copy-mode-vi v send-keys -X begin-selection
       bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
@@ -604,46 +605,58 @@
         options.desc = "Buffer prev";
       }
       {
+        key = "K";
+        action = ":m '<-2<CR>gv=gv";
+        options.noremap = true;
+        mode = ["v"];
+      }
+      {
+        key = "J";
+        action = ":m '>+1<CR>gv=gv";
+        options.noremap = true;
+        mode = ["v"];
+      }
+      {
         key = "<Leader>x";
         action = "<cmd>bd<CR>";
         options.noremap = true;
         options.desc = "Buffer delete";
       }
       {
-        key = "<Leader>f";
+        key = "<Leader>ff";
         action = "<cmd> Telescope find_files <CR>";
         options.noremap = true;
         options.desc = "Fuzzy find files";
       }
       {
-        key = "<Leader>b";
-        action = "<cmd> Telescope current_buffer_fuzzy_find <CR>";
+        key = "<Leader>fg";
+        action = "<cmd> Telescope live_grep <CR>";
         options.noremap = true;
-        options.desc = "Fuzzy find inside buffer";
+        options.desc = "Live Grep";
       }
       {
-        key = "<Leader>n";
+        key = "<Leader>ft";
         action = "<cmd> NvimTreeToggle <CR>";
         options.noremap = true;
         options.desc = "Toggle NvimTree";
       }
       {
-        key = "<Leader>u";
+        key = "<Leader>fu";
         action = "<cmd> UndotreeToggle <CR><cmd> UndotreeFocus <CR>";
         options.noremap = true;
         options.desc = "Toggle UndoTree";
       }
       {
-        key = "<Leader>gs";
+        key = "<Leader>ga";
         action = "<cmd> Gitsigns stage_hunk <CR>";
         options.noremap = true;
-        options.desc = "Git stage hunk";
+        options.desc = "Git add hunk";
       }
       {
         key = "<Leader>gu";
         action = "<cmd> Gitsigns undo_stage_hunk <CR>";
         options.noremap = true;
-        options.desc = "Git undo stage";
+        options.desc = "Git undo add";
       }
       {
         key = "<Leader>gd";
@@ -653,63 +666,70 @@
       }
       {
         key = "<Leader>gn";
-        action = "<cmd> Gitsigns next_hunk <CR>";
+        action = "<cmd> Gitsigns next_hunk <CR>zz";
         options.noremap = true;
         options.desc = "Git next hunk";
       }
       {
         key = "<Leader>gp";
-        action = "<cmd> Gitsigns prev_hunk <CR>";
+        action = "<cmd> Gitsigns prev_hunk <CR>zz";
         options.noremap = true;
         options.desc = "Git prev hunk";
       }
       {
-        key = "<Leader>lf";
+        key = "<Leader>gb";
+        action = "<cmd> Gitsigns blame_line <CR>";
+        options.noremap = true;
+        options.desc = "Git blame line";
+      }
+      {
+        key = "<C-f>";
         action = "<cmd> lua vim.lsp.buf.format() <CR>";
         options.noremap = true;
         options.desc = "LSP format";
       }
       {
+        key = "gd";
+        action = "<cmd> lua vim.lsp.buf.definition() <CR>";
+        options.noremap = true;
+        options.desc = "LSP definition";
+      }
+      {
+        key = "gc";
+        action = "<cmd> lua vim.lsp.buf.declaration() <CR>";
+        options.noremap = true;
+        options.desc = "LSP declaration";
+      }
+      {
+        key = "gr";
+        action = "<cmd> lua vim.lsp.buf.references() <CR>";
+        options.noremap = true;
+        options.desc = "LSP references";
+      }
+      {
+        key = "K";
+        action = "<cmd> lua vim.lsp.buf.hover() <CR>";
+        options.noremap = true;
+        options.desc = "LSP hover";
+        mode = ["n"];
+      }
+      {
+        key = "<C-h>";
+        action = "<cmd> lua vim.lsp.buf.signature_help() <CR>";
+        options.noremap = true;
+        options.desc = "LSP signature help";
+        mode = ["i"];
+      }{
         key = "<Leader>la";
         action = "<cmd> lua vim.lsp.buf.code_action() <CR>";
         options.noremap = true;
         options.desc = "LSP code action";
       }
       {
-        key = "<Leader>ldc";
-        action = "<cmd> lua vim.lsp.buf.declaration() <CR>";
-        options.noremap = true;
-        options.desc = "LSP declaration";
-      }
-      {
-        key = "<Leader>ldf";
-        action = "<cmd> lua vim.lsp.buf.definition() <CR>";
-        options.noremap = true;
-        options.desc = "LSP definition";
-      }
-      {
-        key = "<Leader>li";
-        action = "<cmd> lua vim.lsp.buf.implementation() <CR>";
-        options.noremap = true;
-        options.desc = "LSP implementation";
-      }
-      {
-        key = "<Leader>lr";
-        action = "<cmd> lua vim.lsp.buf.references() <CR>";
-        options.noremap = true;
-        options.desc = "LSP references";
-      }
-      {
         key = "<Leader>ln";
         action = "<cmd> lua vim.lsp.buf.rename() <CR>";
         options.noremap = true;
         options.desc = "LSP rename";
-      }
-      {
-        key = "<Leader>lh";
-        action = "<cmd> lua vim.lsp.buf.signature_help() <CR>";
-        options.noremap = true;
-        options.desc = "LSP signature help";
       }
     ];
 
@@ -778,6 +798,11 @@
           clangd.enable = true;
           ruff-lsp.enable = true;
           tsserver.enable = true;
+          rust-analyzer = {
+            enable = true;
+            installCargo = false;
+            installRustc = false;
+          };
         };
 
         onAttach = ''
