@@ -17,6 +17,8 @@
     inkscape
     gimp
     libreoffice
+    kdePackages.kdenlive
+    logseq
 
     # Gaming
     wineWowPackages.staging
@@ -29,6 +31,9 @@
     ffmpeg
     imagemagick
     graphviz
+    yt-dlp
+    poppler_utils
+    usbutils
 
     # UI stuff
     swaylock
@@ -46,6 +51,7 @@
     croc
     tor
     dig
+    traceroute
 
     # Files
     fzf
@@ -117,6 +123,8 @@
     jdk17
     bun
     nodejs_22
+    elixir_1_15
+    sqlite
   ];
 
   # System diagostics
@@ -209,48 +217,64 @@
         }
       ];
 
-      keybindings = lib.mkOptionDefault {
-        "XF86AudioMute" = ''
-          exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+      keybindings = let
+        lightScript = pkgs.writeScriptBin "light-script.sh" ''
+          #!/usr/bin/env sh
+
+          l=$(light -G)
+          f=1.2
+
+          if [[ $1 = "up" ]]; then
+            l=$(echo "$l $f" | awk '{print($1 * $2)}')
+          else
+            l=$(echo "$l $f" | awk '{print($1 / $2)}')
+          fi
+
+          light -S $l
         '';
+      in
+        lib.mkOptionDefault {
+          "XF86AudioMute" = ''
+            exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+          '';
 
-        "XF86AudioRaiseVolume" = ''
-          exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && \
-          wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
-        '';
+          "XF86AudioRaiseVolume" = ''
+            exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ && \
+            wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
+          '';
 
-        "XF86AudioLowerVolume" = ''
-          exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && \
-          wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
-        '';
+          "XF86AudioLowerVolume" = ''
+            exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%- && \
+            wpctl set-mute @DEFAULT_AUDIO_SINK@ 0
+          '';
 
-        "XF86AudioMicMute" = ''
-          exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle &&              \
-          dunstify -t 2000 $(                                               \
-            wpctl get-volume @DEFAULT_AUDIO_SOURCE@ |                       \
-            awk '{if($3) {print("mic muted")} else {print("mic working")}}' \
-          )
-        '';
+          "XF86AudioMicMute" = ''
+            exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle &&              \
+            dunstify -t 2000 $(                                               \
+              wpctl get-volume @DEFAULT_AUDIO_SOURCE@ |                       \
+              awk '{if($3) {print("mic muted")} else {print("mic working")}}' \
+            )
+          '';
 
-        "XF86MonBrightnessUp" = "exec light -A 5";
+          "XF86MonBrightnessUp" = "exec ${lightScript}/bin/light-script.sh up";
 
-        "XF86MonBrightnessDown" = "exec light -U 5";
+          "XF86MonBrightnessDown" = "exec ${lightScript}/bin/light-script.sh down";
 
-        "Mod4+shift+s" = ''
-          exec grim -g "$(slurp)" - | wl-copy --type image/png
-        '';
+          "Mod4+shift+s" = ''
+            exec grim -g "$(slurp)" - | wl-copy --type image/png
+          '';
 
-        "Mod4+x" = ''
-          exec swaylock -f --image ${lock-img} \
-            --indicator-idle-visible &&        \
-          systemctl suspend
-        '';
+          "Mod4+x" = ''
+            exec swaylock -f --image ${lock-img} \
+              --indicator-idle-visible &&        \
+            systemctl suspend
+          '';
 
-        "Mod4+Shift+x" = ''
-          exec swaylock -f --image ${lock-img} \
-            --indicator-idle-visible
-        '';
-      };
+          "Mod4+Shift+x" = ''
+            exec swaylock -f --image ${lock-img} \
+              --indicator-idle-visible
+          '';
+        };
     };
 
     extraConfig = let
@@ -651,6 +675,7 @@
         action = "<cmd> Gitsigns stage_hunk <CR>";
         options.noremap = true;
         options.desc = "Git add hunk";
+        mode = ["n" "v"];
       }
       {
         key = "<Leader>gu";
@@ -719,7 +744,8 @@
         options.noremap = true;
         options.desc = "LSP signature help";
         mode = ["i"];
-      }{
+      }
+      {
         key = "<Leader>la";
         action = "<cmd> lua vim.lsp.buf.code_action() <CR>";
         options.noremap = true;
@@ -798,6 +824,7 @@
           clangd.enable = true;
           ruff-lsp.enable = true;
           tsserver.enable = true;
+          elixirls.enable = true;
           rust-analyzer = {
             enable = true;
             installCargo = false;
