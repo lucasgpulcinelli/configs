@@ -108,6 +108,7 @@
       python-pkgs.pandas
       python-pkgs.numpy
       python-pkgs.matplotlib
+      python-pkgs.seaborn
     ]))
 
     # Programming - rust
@@ -120,7 +121,7 @@
     go
     ghc
     ghcid
-    jdk17
+    graalvm-ce
     bun
     nodejs_22
     elixir_1_15
@@ -152,6 +153,7 @@
   home.sessionVariables = {
     EDITOR = "nvim";
     GTK_THEME = "Adwaita:dark";
+    JAVA_HOME = "${pkgs.graalvm-ce}";
   };
 
   # Window manager
@@ -839,6 +841,11 @@
             { bg="#313244" }
           )
         '';
+      };
+      nvim-jdtls = {
+        enable = true;
+        data = "${config.xdg.cacheHome}/jdtls/workspace";
+        configuration = "${config.xdg.cacheHome}/jdtls/config";
       };
       cmp = {
         enable = true;
