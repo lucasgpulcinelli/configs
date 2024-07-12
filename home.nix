@@ -778,10 +778,7 @@
       telescope.enable = true;
       undotree.enable = true;
       gitsigns.enable = true;
-      nvim-tree = {
-        enable = true;
-        openOnSetup = true;
-      };
+      nvim-tree.enable = true;
       luasnip.enable = true;
       treesitter-context = {
         enable = true;
@@ -825,6 +822,7 @@
           gopls.enable = true;
           clangd.enable = true;
           ruff-lsp.enable = true;
+          pyright.enable = true;
           tsserver.enable = true;
           elixirls.enable = true;
           rust-analyzer = {
@@ -847,10 +845,18 @@
         data = "${config.xdg.cacheHome}/jdtls/workspace";
         configuration = "${config.xdg.cacheHome}/jdtls/config";
       };
+      copilot-chat.enable = true;
+      copilot-cmp.enable = true;
+      copilot-lua = {
+        enable = true;
+        panel.enabled = false;
+        suggestion.enabled = false;
+      };
       cmp = {
         enable = true;
         settings = {
           sources = [
+            {name = "copilot";}
             {name = "nvim_lsp";}
             {name = "path";}
             {name = "buffer";}
@@ -938,7 +944,7 @@
   # Gpg agent
   services.gpg-agent = {
     enable = true;
-    pinentryPackage = pkgs.pinentry-curses;
+    pinentryPackage = pkgs.pinentry-qt;
     defaultCacheTtl = 600;
 
     enableSshSupport = true;
