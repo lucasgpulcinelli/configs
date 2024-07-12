@@ -1,11 +1,14 @@
 {
+  inputs,
   config,
   lib,
   pkgs,
   ...
 }: {
-  # Include the results of the hardware scan.
-  imports = [./hardware-configuration.nix];
+  imports = [
+    ./hardware-configuration.nix
+    inputs.home-manager.nixosModules.home-manager
+  ];
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
@@ -166,6 +169,17 @@
     extraGroups = ["wheel" "video" "libvirtd" "wireshark"];
 
     shell = "${pkgs.zsh}/bin/zsh";
+  };
+
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    users.lucasegp = {
+      imports = [
+        ./home.nix
+        inputs.nixvim.homeManagerModules.nixvim
+      ];
+    };
   };
 
   # Man pages
