@@ -192,5 +192,10 @@
   security.polkit.enable = true;
   security.pam.services.swaylock = {};
 
+  nixpkgs.config.allowUnfreePredicate = pkg:
+    builtins.elem (lib.getName pkg) [
+      "obsidian"
+    ];
+
   system.stateVersion = "23.11";
 }

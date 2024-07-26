@@ -8,21 +8,20 @@
   home.packages = with pkgs; [
     # Browsers
     librewolf
-    ungoogled-chromium
+    brave
     tor-browser
-    vscodium # prove me wrong
 
     # Office
     obs-studio
     inkscape
     gimp
-    libreoffice
     kdePackages.kdenlive
-    logseq
+    obsidian
 
     # Gaming
     wineWowPackages.staging
     lutris-free
+    prismlauncher
 
     # Multimedia
     mpv
@@ -55,12 +54,11 @@
 
     # Files
     fzf
-    ripgrep
-    bat
     zip
     unzip
     file
     findutils
+    jq
 
     # Security
     gnupg
@@ -119,12 +117,9 @@
 
     # Programming - other languages
     go
-    ghc
-    ghcid
     graalvm-ce
     bun
     nodejs_22
-    elixir_1_15
     sqlite
   ];
 
@@ -155,6 +150,8 @@
     GTK_THEME = "Adwaita:dark";
     JAVA_HOME = "${pkgs.graalvm-ce}";
   };
+
+  home.sessionPath = ["$HOME/.local/bin"];
 
   # Window manager
   xdg.configFile."sway-lock.png".source = ./res/lock.png;
@@ -464,11 +461,11 @@
       }
 
       send() {
-        croc send --text "$(wl-paste)" --code "$CROC_PASSWORD"
+        croc send --text "$(wl-paste)"
       }
 
       recv() {
-        croc --yes "$CROC_PASSWORD" | wl-copy
+        croc --yes | wl-copy
       }
 
       autoload -U compinit; compinit
@@ -478,6 +475,8 @@
 
       GPG_TTY=$(tty)
       export GPG_TTY
+
+      eval "$(direnv hook zsh)"
     '';
   };
 
@@ -949,6 +948,13 @@
 
     enableSshSupport = true;
     defaultCacheTtlSsh = 600;
+  };
+
+  # Direnv
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+    enableZshIntegration = true;
   };
 
   home.stateVersion = "23.11";
