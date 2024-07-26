@@ -430,7 +430,6 @@
         "kubectx"
         "pass"
         "python"
-        "ripgrep"
         "rsync"
         "tmux"
         "sudo"
@@ -908,6 +907,15 @@
         };
       };
     };
+
+    autoCmd = [
+      {
+        command = "Copilot disable";
+        event = [
+          "VimEnter"
+        ];
+      }
+    ];
   };
 
   # Terminal
