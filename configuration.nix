@@ -75,6 +75,8 @@
     };
   };
 
+  systemd.services."NetworkManager-wait-online".enable = false;
+
   programs.wireshark.enable = true;
 
   # Locale
@@ -119,6 +121,8 @@
   virtualisation = {
     containers.enable = true;
 
+    spiceUSBRedirection.enable = true;
+
     libvirtd = {
       enable = true;
       qemu = {
@@ -141,6 +145,8 @@
     docker = {enable = true;};
   };
 
+  systemd.services."docker".enable = false;
+
   # Packages
   environment.systemPackages = with pkgs; [
     # Basics
@@ -149,6 +155,7 @@
 
     # VMs and containers
     docker-compose
+    spice-gtk
 
     # System diagnostics
     htop
