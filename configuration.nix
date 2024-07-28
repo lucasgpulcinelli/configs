@@ -206,6 +206,8 @@
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (lib.getName pkg) [
       "obsidian"
+      "idea-ultimate"
+      "pycharm-professional"
     ];
 
   system.stateVersion = "23.11";

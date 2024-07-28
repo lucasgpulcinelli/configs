@@ -77,6 +77,10 @@
     scrcpy
     android-tools
 
+    # Programming - IDEs
+    jetbrains.idea-ultimate
+    jetbrains.pycharm-professional
+
     # Programming - vcs
     git
     act
@@ -101,8 +105,11 @@
     gdb
     valgrind
 
+    # Programming - jvm
+    graalvm-ce
+
     # Programming - <Insert Nausea Emoji>
-    (pkgs.python310.withPackages (python-pkgs: [
+    (pkgs.python311.withPackages (python-pkgs: [
       python-pkgs.pandas
       python-pkgs.numpy
       python-pkgs.matplotlib
@@ -117,7 +124,6 @@
 
     # Programming - other languages
     go
-    graalvm-ce
     bun
     nodejs_22
     sqlite
