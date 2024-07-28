@@ -162,6 +162,7 @@
     lm_sensors
     nvtopPackages.intel
     wireshark
+    pciutils
 
     # Mass storage utils
     cryptsetup
@@ -169,6 +170,9 @@
     # If I mess up the bootloader :)
     efibootmgr
   ];
+
+  # Kernel
+  boot.kernelPackages = pkgs.linuxPackages_zen;
 
   # User info
   users.users.lucasegp = {
