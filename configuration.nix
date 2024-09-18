@@ -145,8 +145,6 @@
     docker = {enable = true;};
   };
 
-  systemd.services."docker".enable = false;
-
   # Packages
   environment.systemPackages = with pkgs; [
     # Basics

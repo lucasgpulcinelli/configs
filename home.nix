@@ -54,6 +54,7 @@
 
     # Files
     fzf
+    ripgrep
     zip
     unzip
     file
@@ -107,6 +108,8 @@
 
     # Programming - jvm
     graalvm-ce
+    maven
+    clojure
 
     # Programming - <Insert Nausea Emoji>
     (pkgs.python311.withPackages (python-pkgs: [
