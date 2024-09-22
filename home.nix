@@ -78,10 +78,6 @@
     scrcpy
     android-tools
 
-    # Programming - IDEs
-    jetbrains.idea-ultimate
-    jetbrains.pycharm-professional
-
     # Programming - vcs
     git
     act
@@ -831,7 +827,6 @@
           ruff-lsp.enable = true;
           pyright.enable = true;
           tsserver.enable = true;
-          elixirls.enable = true;
           rust-analyzer = {
             enable = true;
             installCargo = false;
