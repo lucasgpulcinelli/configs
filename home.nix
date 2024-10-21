@@ -87,8 +87,6 @@
     kubectl
     kubectx
     awscli2
-    kubernetes-helm
-    istioctl
 
     # Programming - C/C++
     clang
@@ -105,7 +103,10 @@
     # Programming - jvm
     graalvm-ce
     maven
+    scala_3
+    sbt
     clojure
+    cljfmt
 
     # Programming - <Insert Nausea Emoji>
     (pkgs.python311.withPackages (python-pkgs: [
@@ -372,7 +373,7 @@
         position = 6;
         settings = {
           format = " VOL: %volume ";
-          format_muted = " VOL: mut %volume ";
+          format_muted = " VOL: muted";
           device = "default";
           mixer = "Master";
           mixer_idx = 0;
@@ -436,7 +437,6 @@
         "pass"
         "python"
         "rsync"
-        "tmux"
         "sudo"
         "systemd"
       ];
@@ -450,6 +450,7 @@
             -path "*/.git*" -prune -o \
             -path "*/venv*" -prune -o \
             -print                    \
+            2>/dev/null               \
           |fzf --reverse              \
         )
 
@@ -501,6 +502,8 @@
         plugin = catppuccin;
         extraConfig = ''
           set -g @catppuccin_flavour 'mocha'
+          set -g @catppuccin_window_default_text "#{?#{==:#{pane_current_command},zsh},#{b:pane_current_path},#{pane_current_command}}"
+          set -g @catppuccin_window_current_text "#{?#{==:#{pane_current_command},zsh},#{b:pane_current_path},#{pane_current_command}}"
         '';
       }
       sensible
@@ -824,9 +827,11 @@
         servers = {
           gopls.enable = true;
           clangd.enable = true;
-          ruff-lsp.enable = true;
+          ruff.enable = true;
           pyright.enable = true;
           tsserver.enable = true;
+          metals.enable = true;
+          clojure-lsp.enable = true;
           rust-analyzer = {
             enable = true;
             installCargo = false;

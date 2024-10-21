@@ -67,11 +67,9 @@
   # Networking
   networking = {
     hostName = "lucasegp-nixos";
-    nameservers = ["1.1.1.1" "1.0.0.1"];
 
     networkmanager = {
       enable = true;
-      dns = "none";
     };
   };
 
@@ -204,8 +202,6 @@
   nixpkgs.config.allowUnfreePredicate = pkg:
     builtins.elem (lib.getName pkg) [
       "obsidian"
-      "idea-ultimate"
-      "pycharm-professional"
     ];
 
   system.stateVersion = "23.11";
