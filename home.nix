@@ -60,6 +60,8 @@
     file
     findutils
     jq
+    xxd
+    libxml2
 
     # Security
     gnupg
@@ -465,14 +467,6 @@
         fi
       }
 
-      send() {
-        croc send --text "$(wl-paste)"
-      }
-
-      recv() {
-        croc --yes | wl-copy
-      }
-
       autoload -U compinit; compinit
       source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
 
@@ -829,7 +823,6 @@
           clangd.enable = true;
           ruff.enable = true;
           pyright.enable = true;
-          tsserver.enable = true;
           metals.enable = true;
           clojure-lsp.enable = true;
           rust-analyzer = {
