@@ -173,7 +173,7 @@
   # User info
   users.users.lucasegp = {
     isNormalUser = true;
-    extraGroups = ["wheel" "video" "libvirtd" "wireshark"];
+    extraGroups = ["networkmanager" "wheel" "video" "libvirtd" "wireshark"];
 
     shell = "${pkgs.zsh}/bin/zsh";
   };
