@@ -18,6 +18,10 @@
     kdePackages.kdenlive
     obsidian
 
+    # Music
+    musescore
+    tenacity
+
     # Gaming
     wineWowPackages.staging
     lutris-free
@@ -42,6 +46,7 @@
     wl-clipboard
     wl-mirror
     wlsunset
+    adwaita-icon-theme
 
     # Network
     curl
@@ -62,6 +67,7 @@
     jq
     xxd
     libxml2
+    gettext
 
     # Security
     gnupg
@@ -89,6 +95,9 @@
     kubectl
     kubectx
     awscli2
+    azure-cli
+    kind
+    kubernetes-helm # I hate this thing
 
     # Programming - C/C++
     clang
@@ -311,6 +320,8 @@
       default_border none
       output "*" bg ${bg-img} fill
 
+      seat seat0 xcursor_theme Adwaita 12
+
       exec ${lowBatteryScript}/bin/low-battery.sh
     '';
   };
@@ -430,7 +441,6 @@
         "docker"
         "pass"
         "aws"
-        "docker"
         "docker-compose"
         "golang"
         "helm"
@@ -800,7 +810,7 @@
       };
       treesitter = {
         enable = true;
-        ensureInstalled = [
+        settings.ensure_installed = [
           "c"
           "cpp"
           "go"
@@ -824,8 +834,8 @@
           ruff.enable = true;
           pyright.enable = true;
           metals.enable = true;
-          clojure-lsp.enable = true;
-          rust-analyzer = {
+          clojure_lsp.enable = true;
+          rust_analyzer = {
             enable = true;
             installCargo = false;
             installRustc = false;
@@ -852,6 +862,7 @@
         panel.enabled = false;
         suggestion.enabled = false;
       };
+      web-devicons.enable = true;
       cmp = {
         enable = true;
         settings = {
@@ -923,7 +934,7 @@
   # Terminal
   programs.kitty = {
     enable = true;
-    theme = "Catppuccin-Mocha";
+    themeFile = "Catppuccin-Mocha";
     font = {
       name = "GoMono Nerd Font Mono";
       size = 15;

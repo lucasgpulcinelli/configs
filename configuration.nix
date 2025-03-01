@@ -17,7 +17,10 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Tmp
-  boot.tmp.useTmpfs = true;
+  boot.tmp = {
+    useTmpfs = true;
+    tmpfsSize = "100%";
+  };
 
   # Power Button behavior
   services.logind.extraConfig = ''
@@ -86,7 +89,6 @@
   };
 
   # Sound
-  sound.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -97,7 +99,12 @@
 
   # Screen
   programs.light.enable = true;
-  hardware.opengl.enable = true;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+    extraPackages32 = with pkgs.pkgsi686Linux; [intel-media-driver];
+  };
+
   xdg.portal = {
     enable = true;
     wlr = {
@@ -140,7 +147,12 @@
       };
     };
 
-    docker = {enable = true;};
+    docker = {
+      enable = true;
+      daemon.settings = {
+        "storage-opt" = [ "dm.basesize=20G" ];
+      };
+    };
   };
 
   # Packages
